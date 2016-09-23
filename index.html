@@ -1,0 +1,142 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Destiny Point Tracker</title>
+    <style>
+    	p.err_msg {
+    		color: red;
+    	}
+    	.main {
+    		display: flex;
+    	}
+    	.col {
+    		flex: 1;
+    		display: flex;
+    		align-self: center;
+    		align-items: center;
+    		flex-direction: column;
+    	}
+    	.col_left {
+    		order:1;
+    	}
+    	.col_mid {
+    		order:2;
+    	}
+    	.col_right {
+    		order:3;
+    	}
+    	.num {
+    		font-size: 5em;
+    	}
+    	#l_title {
+    		color: #3784d6;
+    	}
+    	#d_title {
+    		color: #7D0300;
+
+    	}
+    </style>
+</head>
+<body>
+    <script src="jquery-3.1.1.js"></script>
+    <script>
+ 
+    // Your code goes here.
+    var light = 0;
+    var dark = 0;
+    var log_len = 10;
+
+    function log_message(msg, cls)
+    {
+    	cls = cls || "log_msg";
+    	$("#log").prepend("<p class=\"" + cls + "\"><strong>" + msg + "</strong></p>");
+
+    	if($("#log").children().length > log_len)
+    	{
+    		remain = $("#log").children().slice(0, log_len);
+    		$("#log").html(remain)
+
+    	}
+
+    }
+
+    function writeNewVal(score, var_name)
+    {
+
+    	$("#" + var_name).html(score);
+    }
+
+    function increaseLight()
+    {
+    	light++;
+    	writeNewVal(light, "light");
+    	log_message("Added Light Side Point");
+
+    }
+
+    function increaseDark()
+    {
+    	dark++;
+    	writeNewVal(dark, "dark");
+    	log_message("Added Dark Side Point");
+    }
+    function flipPoint(source, dest)
+    {
+
+    	window[source]--;
+    	window[dest]++;
+
+    	writeNewVal(window[source], source);
+    	writeNewVal(window[dest], dest);
+
+    }
+    function flipLight() 
+    {
+    	if(light <= 0)
+    	{
+    		log_message("Out of Light Side Points", 'err_msg');
+    		return;
+    	}
+    	flipPoint('light', 'dark');
+    	log_message("Flipped Light Side Point");
+
+    }
+    function flipDark() 
+    {
+    	if(dark <= 0)
+    	{
+    		log_message("Out of Dark Side Points", 'err_msg');
+    		return;
+    	}
+    	flipPoint('dark', 'light');
+    	log_message("Flipped Dark Side Point");
+    }
+ 
+    </script>
+</body>
+<div class='main'>
+	<div id='d_light' class="col col_left">
+		<h1 id='l_title' class='counter'>Light Side</h1>
+		<p id='light' class='num'>0</p>
+		<button type="button" onclick="increaseLight()">Add Light Side Point</button>
+	</div>
+	<div id='d_buttons' class="col col_mid">
+		<button type="button" onclick="flipLight()">Flip Light Side to Dark</button>
+		</br>
+		</br>
+		</br>
+		<button type="button" onclick="flipDark()">Flip Dark Side to Light</button>
+	</div>
+	<div id='d_dark' class="col col_right">
+		<h1 id='d_title' class='counter'>Dark Side</h1>
+		<p id='dark' class='num'>0</p>
+		<button type="button" onclick="increaseDark()">Add Dark Side Point</button>
+	</div>
+</div>
+<div id='d_log' class="bottom">
+	<h2> Operation Log </h2>
+	<div id='log'></div>
+</div>
+
+</html>
