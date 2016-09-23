@@ -16,3 +16,7 @@ Load index.html in your favorite web browser
 
 Please add issues or pull requests here.
 
+## License
+
+Licensed under an MIT license.
+
